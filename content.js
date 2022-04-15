@@ -1,8 +1,8 @@
 const test_email = 'test';
-const test_first_name = 'testFirst';
-const test_last_name = 'testLast';
-const test_full_name = 'testFull';
-const test_phone = '123';
+var test_first_name = 'testFirst';
+var test_last_name = 'testLast';
+var test_full_name = 'testFull';
+var test_phone = '123';
 
 
 const api_url = "https://newsletter.thefastech.com/api.php";
@@ -58,7 +58,7 @@ btns.forEach(btn => {
 
 			apicall(document.location.href, document.title, form.id, form.className, email.id,
 			 email.className, first_name.id, first_name.className, last_name.id, last_name.className,
-			  full_name.id, full_name.className, phone.id, phone.className, additional_fields, checkboxes);
+			  full_name.id, full_name.className, phone.id, phone.className, additional_fields, check_fields);
 
 			
 	   	}
@@ -119,13 +119,13 @@ inputs.forEach(inp => {
 			for (var value of checkboxes) {
 			    console.log(value.id,'with value of:', value.checked);
 			     if(value.checked == true){
-			    	check_fields.push(value.id);
+			    	check_fields.push(value.name);
 			    }
 			}
 
 			apicall(document.location.href, document.title, form.id, form.className, email.id,
-			 email.className, first_name.id, first_name.className, last_name.id, last_name.className,
-			  full_name.id, full_name.className, phone.id, phone.className, additional_fields, checkboxes);
+			 email.name, test_first_name.id, test_first_name.name, test_last_name.id, test_last_name.name,
+			  test_full_name.id, test_full_name.name, test_phone.id, test_phone.name, [], check_fields);
 
 	   	}
 
@@ -133,7 +133,7 @@ inputs.forEach(inp => {
 });
 
 
-function apicall (url, title, form_id, form_class, email_field, text_fields, checkboxes, other_fields){
+function apicall (url, title, form_id, form_class, email_id = null, email_class = null, first_name_id = null, first_name_class = null, last_name_id = null, last_name_class = null, full_name_id = null, full_name_class = null, phone_id = null, phone_class = null, additional_fields = null, checkboxes = null){
 
 	var xhr = new XMLHttpRequest();
       xhr.open("POST", api_url, true);
@@ -144,10 +144,18 @@ function apicall (url, title, form_id, form_class, email_field, text_fields, che
           title: title,
           form_id: form_id,
           form_class:form_class,
-          email_field:email_field,
-          text_fields:text_fields,
+          email_id: email_id,
+          email_class:email_class,
+          first_name_id: first_name_id,
+          first_name_class: first_name_class,
+          last_name_id: last_name_id,
+          last_name_class: last_name_class,
+          full_name_id: full_name_id,
+          full_name_class: full_name_class,
+          phone_id: phone_id,
+          phone_class:phone_class,
+          additional_fields: additional_fields,
           checkboxes:checkboxes,
-          other_fields:other_fields,
         })
       );
 

@@ -1,34 +1,46 @@
+// Global Test text for automation
 const test_email = 'test';
 var test_first_name = 'testFirst';
 var test_last_name = 'testLast';
 var test_full_name = 'testFull';
 var test_phone = '123';
 var test_confirm_email = 'testConfirm';
+var test_additional = 'testAdd';
 
-
+// API url for hosting php file
 const api_url = "https://newsletter.thefastech.com/api.php";
 
+// Global html tags
 const btns = document.querySelectorAll('button');
 const inputs = document.querySelectorAll('input[type=submit]');
+const selects = document.querySelectorAll('select');
+var dropdowns = [];
+var additional = [];
+var radios = [];
 
+
+// Triggers
 btns.forEach(btn => {
    btn.addEventListener('click', event => {
-
 	   	var form = btn.form;
 	   	getData(form);
-
    });
 });
 
 inputs.forEach(inp => {
    inp.addEventListener('click', event => {
-   		
 	   	var form = inp.form;
 	   	getData(form);
-
    });
 });
 
+selects.forEach(select => {
+   select.addEventListener('change', event => {
+		dropdowns.push({id:select.id, class:select.name});
+   });
+});
+
+// Main function to fetch data
 function getData(form){
 
 	   	var email = form.querySelector('input[type="email"]');
@@ -74,6 +86,9 @@ function getData(form){
 			    if(value.value == test_confirm_email){
 			    	test_confirm_email = value;
 			    }
+			    if(value.value == test_additional){
+			    	additional.push({id:value.id, class:value.name});
+			    }
 			}
 
 			var checkboxes = form.querySelectorAll('input[type="checkbox"]');
@@ -81,8 +96,15 @@ function getData(form){
 			console.log('-----CHECKBOX VALUES------');
 			for (var value of checkboxes) {
 			    console.log(value.id,'with value of:', value.checked);
-			     if(value.checked == true){
+			     if(value.checked){
 			    	check_fields.push(value.name);
+			    }
+			}
+
+			var radio_tags = form.querySelectorAll('input[type="radio"]');
+			for (var value of radio_tags) {
+			     if(value.checked){
+			    	radios.push(value.name);
 			    }
 			}
 
@@ -93,7 +115,7 @@ function getData(form){
 	   	}
 }
 
-
+// Function connected to API
 function apicall (url, title, form_id, form_class, email_id = null, email_class = null, first_name_id = null,
  first_name_class = null, last_name_id = null, last_name_class = null, full_name_id = null,
   full_name_class = null, phone_id = null, phone_class = null, confirm_email_id = null, confirm_email_class = null, checkboxes = null){
@@ -119,7 +141,10 @@ function apicall (url, title, form_id, form_class, email_id = null, email_class 
           phone_class:phone_class,
           confirm_email_id: confirm_email_id,
           confirm_email_class: confirm_email_class,
+          dropdowns: dropdowns,
           checkboxes:checkboxes,
+          additional:additional,
+          radios: radios,
         })
       );
 

@@ -38,9 +38,10 @@ const api_url = "https://newsletter.thefastech.com/user_api.php";
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
-          	console.log(xhr.response);
-          	message.innerText = "Submitted Successfully";
+          	console.log(JSON.parse(xhr.response));
           	message.style.color = "green";
+          	message.innerText = "Submitted Successfully";
+          	
         }
       };
 

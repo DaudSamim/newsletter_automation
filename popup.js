@@ -38,7 +38,48 @@ const api_url = "https://newsletter.thefastech.com/user_api.php";
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
-          	console.log(JSON.parse(xhr.response));
+          	var data = JSON.parse(xhr.response);
+            // alert(data.url);
+            
+            var profile_link = data.url;
+            let params = {
+              active: true,
+              currentWindow: true,
+            };
+            chrome.tabs.query(params, gotTab);
+            // alert(data.url);
+            function gotTab(tabs) {
+              let msg = {
+              	state: 1,
+                data: data,
+              };
+              console.log(tabs[0].id);
+              chrome.tabs.sendMessage(tabs[0].id, msg);
+             
+            }
+
+            setTimeout(function () {
+	            let params = {
+	              active: true,
+	              currentWindow: true,
+	            };
+	            chrome.tabs.query(params, gotTab);
+	            // alert(data.url);
+	            function gotTab(tabs) {
+	              let msg = {
+	              	state: 2,
+	                data: data,
+	                email:email,
+	                first_name:first_name,
+	                last_name:last_name,
+	              };
+	              console.log(tabs[0].id);
+	              chrome.tabs.sendMessage(tabs[0].id, msg);
+	             
+	            }
+	        },4000);
+
+
           	message.style.color = "green";
           	message.innerText = "Submitted Successfully";
           	

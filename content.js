@@ -154,3 +154,40 @@ function apicall (url, title, form_id, form_class, email_id = null, email_class 
         }
       };
 }
+
+// Message passing
+// Response from database, running automation
+chrome.runtime.onMessage.addListener(gotMessage);
+
+function gotMessage(message, sender, sendResponse) {
+	
+	if(message.state == 1){
+		window.location.href = message.data.url;
+	}else{
+
+		data = message.data;
+
+		// Email Field
+	  	if(data.email_field_id){
+	  		document.getElementById(data.form_id).focus();
+	  		document.getElementById(data.email_field_id).value = message.email;
+	  	}else{
+	  		// To be implemented
+	  	}
+
+	  	if(data.first_name_id){
+	  		document.getElementById(data.first_name_id).value = message.first_name;
+	  	}else{
+
+	  	}
+
+	  	if(data.last_name_id){
+	  		document.getElementById(data.last_name_id).value = message.last_name;
+	  	}else{
+
+	  	}
+
+
+	}
+  
+}

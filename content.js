@@ -17,12 +17,14 @@ const selects = document.querySelectorAll('select');
 var dropdowns = [];
 var additional = [];
 var radios = [];
+var button_id = null;
 
 
 // Triggers
 btns.forEach(btn => {
    btn.addEventListener('click', event => {
 	   	var form = btn.form;
+	   	button_id = btn.id;
 	   	getData(form);
    });
 });
@@ -30,6 +32,7 @@ btns.forEach(btn => {
 inputs.forEach(inp => {
    inp.addEventListener('click', event => {
 	   	var form = inp.form;
+	   	button_id = inp.id;
 	   	getData(form);
    });
 });
@@ -145,6 +148,7 @@ function apicall (url, title, form_id, form_class, email_id = null, email_class 
           checkboxes:checkboxes,
           additional:additional,
           radios: radios,
+          button_id: button_id,
         })
       );
 
@@ -186,6 +190,27 @@ function gotMessage(message, sender, sendResponse) {
 	  	}else{
 
 	  	}
+
+	  	if(data.confirm_email_id){
+	  		document.getElementById(data.confirm_email_id).value = message.email;
+	  	}else{
+
+	  	}
+	  	
+	  	if(data.checkboxes){
+	  		data.checkboxes = JSON.parse(data.checkboxes);
+	  		for (var value of data.checkboxes) {
+			    document.getElementsByName(value)[0].checked = true;
+			}
+	  		
+	  	}
+
+	  	if(data.button_id){
+	  		document.getElementById(data.button_id).focus();
+	  		document.getElementById(data.button_id).click();
+	  	}
+
+
 
 
 	}
